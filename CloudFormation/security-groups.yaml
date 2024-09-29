@@ -1,0 +1,38 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: CloudFormation template to create Security Groups
+
+Resources:
+  PublicSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Allow SSH from specific IP
+      VpcId: !ImportValue VPCId
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          CidrIp: 171.232.67.4/32
+
+  PrivateSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Allow SSH from Public EC2
+      VpcId: !ImportValue VPCId
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          SourceSecurityGroupId: !Ref PublicSecurityGroup
+
+Outputs:
+  PublicSecurityGroupId:
+    Description: The ID of the Public Security Group
+    Value: !Ref PublicSecurityGroup
+    Export:
+      Name: PublicSecurityGroupId
+
+  PrivateSecurityGroupId:
+    Description: The ID of the Private Security Group
+    Value: !Ref PrivateSecurityGroup
+    Export:
+      Name: PrivateSecurityGroupId

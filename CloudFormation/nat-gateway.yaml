@@ -1,0 +1,21 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: CloudFormation template to create NAT Gateway
+
+Resources:
+  EIP:
+    Type: AWS::EC2::EIP
+    Properties:
+      Domain: vpc
+
+  NATGateway:
+    Type: AWS::EC2::NatGateway
+    Properties:
+      SubnetId: !ImportValue PublicSubnetId
+      AllocationId: !GetAtt EIP.AllocationId
+
+Outputs:
+  NATGatewayId:
+    Description: The NAT Gateway ID
+    Value: !Ref NATGateway
+    Export:
+      Name: NATGatewayId
