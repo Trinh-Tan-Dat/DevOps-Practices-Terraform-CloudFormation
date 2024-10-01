@@ -1,0 +1,46 @@
+name: Test VPC
+
+on:
+  workflow_call:
+
+jobs:
+  test_vpc:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.4.6
+
+      - name: Install AWS CLI
+        run: |
+          sudo apt-get install unzip
+          curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+          unzip awscliv2.zip
+          sudo ./aws/install
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
+      - name: Initialize Terraform
+        run: terraform init
+
+      - name: Plan Terraform
+        run: terraform plan
+
+      - name: Test if VPC is created
+        run: |
+          VPC_ID=$(terraform output -raw vpc_id)
+          if [ -z "$VPC_ID" ]; then
+            echo "VPC not created!"
+            exit 1
+          else
+            echo "VPC created successfully with ID: $VPC_ID"
+          fi

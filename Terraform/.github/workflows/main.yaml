@@ -1,0 +1,24 @@
+name: Test AWS Infrastructure
+
+on:
+  push:
+    branches:
+      - test
+  pull_request:
+
+jobs:
+  vpc_test:
+    name: Test VPC
+    uses: ./.github/workflows/test_vpc.yaml
+
+  ec2_test:
+    name: Test EC2 Instances
+    uses: ./.github/workflows/test_ec2.yaml
+
+  nat_gateway_test:
+    name: Test NAT Gateway
+    uses: ./.github/workflows/test_nat_gateway.yaml
+
+  security_group_test:
+    name: Test Security Groups
+    uses: ./.github/workflows/test_security_groups.yaml
