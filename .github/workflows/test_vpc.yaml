@@ -23,7 +23,7 @@ jobs:
           sudo ./aws/install --update
 
       - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v1
+        uses: aws-actions/configure-aws-credentials@v2
         with:
           role-to-assume: arn:aws:iam::654654459870:user/cloud_user
           aws-region: us-east-1
