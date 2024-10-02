@@ -10,10 +10,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Setup Terraform CLI
-        uses: hashicorp/setup-terraform@v3
-        with:
-          terraform_version: "1.1.7"
 
       - name: Install AWS CLI
         run: |
@@ -22,12 +18,16 @@ jobs:
           unzip awscliv2.zip
           sudo ./aws/install --update
 
-      - name: Configure AWS credentials
+      - name: Configure AWS Credentials Action For GitHub Actions
         uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-east-1
+          aws-region: us-east-1 
+      - name: Setup Terraform CLI
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "1.1.7"
 
 
 
