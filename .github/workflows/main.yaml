@@ -9,36 +9,18 @@ on:
   pull_request:
 
 jobs:
-  test_vpc:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+  vpc_test:
+    name: Test VPC
+    uses: ./.github/workflows/test_vpc.yaml
 
-      - name: Configure AWS Credentials Action For GitHub Actions
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-east-1 
-      - name: Setup Terraform CLI
-        uses: hashicorp/setup-terraform@v3
-        with:
-          terraform_version: "1.1.7"
+  ec2_test:
+    name: Test EC2 Instances
+    uses: ./.github/workflows/test_ec2.yaml
 
+  nat_gateway_test:
+    name: Test NAT Gateway
+    uses: ./.github/workflows/test_nat_gateway.yaml
 
-      - name: Initialize Terraform
-        run: terraform init
-
-      - name: Plan Terraform
-        run: terraform plan
-
-      - name: Test if VPC is created
-        run: |
-          VPC_ID=$(terraform output -raw vpc_id)
-          if [ -z "$VPC_ID" ]; then
-            echo "VPC not created!"
-            exit 1
-          else
-            echo "VPC created successfully with ID: $VPC_ID"
-          fi
+  security_group_test:
+    name: Test Security Groups
+    uses: ./.github/workflows/test_security_groups.yaml
