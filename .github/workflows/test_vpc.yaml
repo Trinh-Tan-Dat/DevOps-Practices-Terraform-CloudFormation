@@ -37,6 +37,9 @@ jobs:
         with:
           terraform_version: 1.4.6
 
+      - name: Navigate to Terraform directory
+        run: cd Terraform/
+
       - name: Initialize Terraform
         run: terraform init
 
