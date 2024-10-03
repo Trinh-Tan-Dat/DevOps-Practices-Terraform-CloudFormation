@@ -2,10 +2,10 @@ name: Test VPC
 
 on:
   workflow_call:
-    inputs:
-      aws-access-key-id:
+    secrets:
+      AWS_ACCESS_KEY_ID:
         required: true
-      aws-secret-access-key:
+      AWS_SECRET_ACCESS_KEY:
         required: true
 
 jobs:
@@ -14,7 +14,6 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-
 
       - name: Install AWS CLI
         run: |
@@ -29,13 +28,11 @@ jobs:
           aws-access-key-id: ${{ inputs.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ inputs.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1 
+
       - name: Setup Terraform CLI
-        uses: hashicorp/setup-terraform@v3
+        uses: hashicorp/setup-terraform@v2
         with:
-          terraform_version: "1.1.7"
-
-
-
+          terraform_version: 1.4.6
 
       - name: Initialize Terraform
         run: terraform init

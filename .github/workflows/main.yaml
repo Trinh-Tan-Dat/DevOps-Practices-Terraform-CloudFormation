@@ -12,16 +12,27 @@ jobs:
   vpc_test:
     name: Test VPC
     uses: ./.github/workflows/test_vpc.yaml
-    secrets: inherit 
+    secrets:
+      AWS_ACCESS_KEY_ID: ${{secret.AWS_ACCESS_KEY_ID}}
+      AWS_SECRET_ACCESS_KEY: ${{secret.AWS_SECRET_ACCESS_KEY}} 
 
   ec2_test:
     name: Test EC2 Instances
     uses: ./.github/workflows/test_ec2.yaml
+    secrets:
+      AWS_ACCESS_KEY_ID: ${{secret.AWS_ACCESS_KEY_ID}}
+      AWS_SECRET_ACCESS_KEY: ${{secret.AWS_SECRET_ACCESS_KEY}} 
 
   nat_gateway_test:
     name: Test NAT Gateway
     uses: ./.github/workflows/test_nat_gateway.yaml
+    secrets:
+      AWS_ACCESS_KEY_ID: ${{secret.AWS_ACCESS_KEY_ID}}
+      AWS_SECRET_ACCESS_KEY: ${{secret.AWS_SECRET_ACCESS_KEY}} 
 
   security_group_test:
     name: Test Security Groups
     uses: ./.github/workflows/test_security_groups.yaml
+    secrets:
+      AWS_ACCESS_KEY_ID: ${{secret.AWS_ACCESS_KEY_ID}}
+      AWS_SECRET_ACCESS_KEY: ${{secret.AWS_SECRET_ACCESS_KEY}} 
