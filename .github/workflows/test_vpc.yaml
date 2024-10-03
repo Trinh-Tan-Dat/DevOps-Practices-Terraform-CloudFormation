@@ -37,13 +37,12 @@ jobs:
         with:
           terraform_version: 1.4.6
 
-      - name: Navigate to Terraform directory
-        run: cd Terraform/
-
       - name: Initialize Terraform
+        working-directory: ./Terraform
         run: terraform init
 
       - name: Plan Terraform
+        working-directory: ./Terraform
         run: terraform plan
 
       - name: Test if VPC is created
