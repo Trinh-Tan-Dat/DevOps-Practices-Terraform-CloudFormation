@@ -42,4 +42,3 @@ module "ec2" {
 resource "aws_eip" "nat" {
   vpc = true
 }
-
