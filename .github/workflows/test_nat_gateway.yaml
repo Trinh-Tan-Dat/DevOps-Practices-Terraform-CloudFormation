@@ -31,9 +31,11 @@ jobs:
           aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
 
       - name: Initialize Terraform
+        working-directory: ./Terraform
         run: terraform init
 
       - name: Plan Terraform
+        working-directory: ./Terraform
         run: terraform plan
 
       - name: Test NAT Gateway
