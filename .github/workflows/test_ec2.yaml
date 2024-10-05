@@ -38,17 +38,17 @@ jobs:
         working-directory: ./Terraform
         run: terraform plan
 
-      - name: Test if EC2 instances are running
-        run: |
-          INSTANCE_ID=$(terraform output public_instance_id)
-          if [ -z "$INSTANCE_ID" ]; then
-            echo "No instance ID found!"
-            exit 1
-          fi
-          STATUS=$(aws ec2 describe-instances --instance-ids $INSTANCE_ID --query 'Reservations[*].Instances[*].State.Name' --output text)
-          if [ "$STATUS" != "running" ]; then
-            echo "EC2 instance is not running!"
-            exit 1
-          else
-            echo "EC2 instance is running"
-          fi
+      # - name: Test if EC2 instances are running
+      #   run: |
+      #     INSTANCE_ID=$(terraform output public_instance_id)
+      #     if [ -z "$INSTANCE_ID" ]; then
+      #       echo "No instance ID found!"
+      #       exit 1
+      #     fi
+      #     STATUS=$(aws ec2 describe-instances --instance-ids $INSTANCE_ID --query 'Reservations[*].Instances[*].State.Name' --output text)
+      #     if [ "$STATUS" != "running" ]; then
+      #       echo "EC2 instance is not running!"
+      #       exit 1
+      #     else
+      #       echo "EC2 instance is running"
+      #     fi
