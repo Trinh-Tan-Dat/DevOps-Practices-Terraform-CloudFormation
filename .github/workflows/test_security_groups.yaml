@@ -1,0 +1,56 @@
+name: Test Security Groups
+
+on:
+  workflow_call:
+    secrets:
+      AWS_ACCESS_KEY_ID:
+        required: true
+      AWS_SECRET_ACCESS_KEY:
+        required: true
+      AWS_SESSION_TOKEN:
+        required: true
+
+jobs:
+  test_security_groups:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.4.6
+
+      - name: Install AWS CLI
+        run: |
+          sudo apt-get install unzip
+          curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+          unzip awscliv2.zip
+          sudo ./aws/install --update
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+          aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
+
+      - name: Initialize Terraform
+        working-directory: ./Terraform
+        run: terraform init
+
+      - name: Plan Terraform
+        working-directory: ./Terraform
+        run: terraform plan
+
+      - name: Test Security Groups
+        run: |
+          PUBLIC_SG=$(terraform output -raw public_sg_id)
+          if [ -z "$PUBLIC_SG" ]; then
+            echo "Public Security Group not created!"
+            exit 1
+          else
+            echo "Public Security Group created with ID: $PUBLIC_SG"
+          fi
