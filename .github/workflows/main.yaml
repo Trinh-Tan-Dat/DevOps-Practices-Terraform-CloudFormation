@@ -41,6 +41,19 @@ jobs:
       AWS_SECRET_ACCESS_KEY: ${{secrets.AWS_SECRET_ACCESS_KEY}}
       AWS_SESSION_TOKEN: ${{secrets.AWS_SESSION_TOKEN}}
 
+  checkov_scan:
+    name: Checkov Security and Compliance Scan
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install Checkov
+        run: pip install checkov
+
+      - name: Run Checkov on Terraform Code
+        run: checkov -d ./Terraform
+
   terraform_apply:
     name: Apply Terraform Configuration
     runs-on: ubuntu-latest
@@ -49,6 +62,7 @@ jobs:
       - ec2_test
       - nat_gateway_test
       - security_group_test
+      - checkov_scan
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -77,3 +91,7 @@ jobs:
       - name: Apply Terraform
         working-directory: ./Terraform
         run: terraform apply -auto-approve
+
+      - name: Destroy Terraform
+        working-directory: ./Terraform
+        run: terraform destroy -auto-approve
