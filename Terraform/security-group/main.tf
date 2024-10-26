@@ -1,12 +1,15 @@
 resource "aws_security_group" "public_sg" {
   vpc_id = var.vpc_id
+  description = "Allow SSH from specific IP"
 
   ingress {
     description = "Allow SSH from specific IP"
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = [var.public_instance_cidr]
+    cidr_blocks = [
+      "10.0.0.1/32"
+    ]
   }
 
   egress {
@@ -24,6 +27,7 @@ resource "aws_security_group" "public_sg" {
 
 resource "aws_security_group" "private_sg" {
   vpc_id = var.vpc_id
+  description = "Allow SSH from specific IP"
 
   ingress {
     description = "Allow SSH from Public EC2"
