@@ -66,6 +66,14 @@ jobs:
           aws-region: us-east-1
           aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
 
+      - name: Initialize Terraform
+        working-directory: ./Terraform
+        run: terraform init
+
+      # - name: Plan Terraform
+      #   working-directory: ./Terraform
+      #   run: terraform plan
+
       - name: Apply Terraform
         working-directory: ./Terraform
         run: terraform apply -auto-approve
