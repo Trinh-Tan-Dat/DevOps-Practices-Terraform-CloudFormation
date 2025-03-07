@@ -107,3 +107,10 @@ aws cloudformation describe-stacks --stack-name myteststack
 ```sh
 aws cloudformation delete-stack --stack-name myteststack
 ```
+
+
+## Elastic Kubernetes Service (EKS)
+1. Access Cluster
+```sh
+aws eks --region us-east-1 update-kubeconfig --name my-eks-cluster
+```

@@ -52,8 +52,7 @@ jobs:
         run: pip install checkov
 
       - name: Run Checkov on Terraform Code
-        # run: checkov -d ./Terraform
-        run: pip install checkov
+        run: checkov -d ./Terraform
 
 
   terraform_apply:
@@ -86,9 +85,9 @@ jobs:
         working-directory: ./Terraform
         run: terraform init
 
-      # - name: Plan Terraform
-      #   working-directory: ./Terraform
-      #   run: terraform plan
+      - name: Plan Terraform
+        working-directory: ./Terraform
+        run: terraform plan
 
       - name: Apply Terraform
         working-directory: ./Terraform

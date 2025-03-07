@@ -10,7 +10,7 @@ Resources:
       SubnetId: !ImportValue PublicSubnetId
       SecurityGroupIds:
         - !ImportValue PublicSecurityGroupId
-      ImageId: ami-0ebfd941bbafe70c6  # Replace with the correct AMI ID
+      ImageId: ami-0ebfd941bbafe70c6  
 
   PrivateEC2Instance:
     Type: AWS::EC2::Instance
@@ -20,7 +20,7 @@ Resources:
       SubnetId: !ImportValue PrivateSubnetId
       SecurityGroupIds:
         - !ImportValue PrivateSecurityGroupId
-      ImageId: ami-0ebfd941bbafe70c6  # Replace with the correct AMI ID
+      ImageId: ami-0ebfd941bbafe70c6  
 
 Outputs:
   PublicEC2InstanceId:
